@@ -1,0 +1,103 @@
+---
+// Language switcher component
+---
+
+<div class="language-switcher">
+  <button class="lang-button lang-toggle" aria-label="Switch language">
+    <span class="current-lang">EN</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="2" y1="12" x2="22" y2="12"></line>
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+    </svg>
+  </button>
+</div>
+
+<style>
+  .language-switcher {
+    display: flex;
+    align-items: center;
+  }
+
+  .lang-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .lang-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .current-lang {
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .lang-button {
+      padding: 10px 16px;
+      font-size: 16px;
+      border-radius: 10px;
+    }
+    
+    .lang-button svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .current-lang {
+      font-size: 16px;
+    }
+  }
+</style>
+
+<script>
+  import { currentLanguage, switchLanguage, initializeLanguage } from '../i18n/languageStore';
+
+  function initializeLanguageSwitcher() {
+    // Initialize language on page load
+    initializeLanguage();
+
+    const langButtons = document.querySelectorAll('.lang-toggle');
+
+    // Update button text based on current language
+    function updateButtonText() {
+      const lang = currentLanguage.get().toUpperCase();
+      langButtons.forEach(button => {
+        const currentLangSpan = button.querySelector('.current-lang');
+        if (currentLangSpan) {
+          currentLangSpan.textContent = lang;
+        }
+      });
+    }
+
+    // Initial update
+    updateButtonText();
+
+    // Subscribe to language changes
+    currentLanguage.subscribe(updateButtonText);
+
+    // Handle language toggle for each button
+    langButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const currentLang = currentLanguage.get();
+        const newLang = currentLang === 'en' ? 'es' : 'en';
+        switchLanguage(newLang);
+      });
+    });
+  }
+
+  // Run the script after the DOM is fully loaded
+  document.addEventListener('DOMContentLoaded', initializeLanguageSwitcher);
+</script>

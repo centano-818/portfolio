@@ -1,0 +1,67 @@
+---
+import DotNetIcon from "../icons/DotNetIcon.astro";
+import WinformsIcon from '../icons/WinformsIcon.astro';
+import AzureIcon from '../icons/AzureIcon.astro';
+import VueIcon from '../icons/VueIcon.astro';
+import TsIcon from '../icons/TsIcon.astro';
+import PyIcon from '../icons/PyIcon.astro';
+import ReactIcon from '../icons/ReactIcon.astro';
+import JsIcon from '../icons/JsIcon.astro';
+import NextJsIcon from '../icons/NextJsIcon.astro';
+import OpenAiIcon from '../icons/OpenAiIcon.astro';
+import FastApiIcon from '../icons/FastApiIcon.astro';
+import ExpressIcon from '../icons/ExpressIcon.astro';
+import MssqlServerIcon from '../icons/MssqlServerIcon.astro';
+import RedisIcon from '../icons/RedisIcon.astro';
+import NotionIcon from '../icons/NotionIcon.astro';
+import BlazorIcon from '../icons/BlazorIcon.astro';
+import NodeJsIcon from '../icons/NodeJsIcon.astro';
+
+const {tags} = Astro.props;
+
+const componentsMap = {
+    'dotNet': DotNetIcon,
+    'ASP.NET': DotNetIcon,
+    'Winforms': WinformsIcon,
+    'Azure Services': AzureIcon,
+    'VueJs': VueIcon,
+    'Typescript': TsIcon,
+    'Python': PyIcon,
+    'React': ReactIcon,
+    'Javascript': JsIcon,
+    'NextJs': NextJsIcon,
+    'OpenAI API': OpenAiIcon,
+    'FastAPI': FastApiIcon,
+    'ExpressJS': ExpressIcon,
+    'MSSQL Server': MssqlServerIcon,
+    'Redis': RedisIcon,
+    'Notion': NotionIcon,
+    'Azure Form Recognizer': AzureIcon,
+    'Blazor': BlazorIcon,
+    'NodeJs': NodeJsIcon,
+    'n8n': NodeJsIcon, // Using NodeJs icon as substitute
+    'Flutter': ReactIcon, // Using React icon as substitute for mobile dev
+    'Google Cloud': AzureIcon, // Using Azure icon as cloud substitute
+    'MVC': DotNetIcon, // Using dotNet icon for MVC
+    'Serverless': AzureIcon, // Using Azure icon for serverless
+    'Odoo ERP': DotNetIcon, // Could create OdooIcon later
+    'Owl': JsIcon, // Using JS icon for Owl framework
+    'LangChain': PyIcon, // Using Python icon for LangChain
+    'Autogen': PyIcon, // Using Python icon for Autogen
+    'Mui': ReactIcon, // Using React icon for Material-UI
+    'Bryntum Calendar': JsIcon // Using JS icon for calendar library
+};
+
+---
+<div class="flex flex-wrap gap-2">
+    { tags.map((tag) => {
+        const IconComponent = componentsMap[tag];
+        return(<div
+            class="w-fit rounded-md font-medium text-xs sm:text-sm border border-white/10 flex justify-center items-center gap-x-1.5 sm:gap-x-2 py-1.5 sm:py-2 px-2.5 sm:px-4 bg-white/10 hover:bg-white/15 transition-all duration-200"
+            {...Astro.props}
+        >
+            {IconComponent && <IconComponent class="w-3 h-3 sm:w-4 sm:h-4"/>} 
+            <span class="whitespace-nowrap">{tag}</span>
+        </div>)}
+    )}
+</div>

@@ -1,0 +1,142 @@
+---
+const technicalSkills = [
+    { skill: 'Asp.Net', category: 'backend' },
+    { skill: 'NodeJS', category: 'backend' },
+    { skill: 'API REST', category: 'backend' },
+        { skill: 'Python(Django/FasyAPI)', category: 'backend' },
+            { skill: 'Java(Spring)', category: 'backend' },
+    { skill: 'PHP(Laravel)', category: 'backend' },
+    { skill: 'React', category: 'frontend' },
+    { skill: 'Vue', category: 'frontend' },
+    { skill: 'NextJS', category: 'frontend' },
+    { skill: 'Blazor', category: 'frontend' },    
+    { skill: 'HTML, CSS', category: 'frontend' },   
+    { skill: 'C# TS, Python, SQL', category: 'languages' },
+     { skill: 'JS,PHP,Go', category: 'languages' },
+
+    { skill: 'Microsoft Visual Studio', category: 'tools' },
+    { skill: 'JetBrains IDEs', category: 'tools' },
+    { skill: 'Azure Platform', category: 'cloud' },
+    { skill: 'RESTful APIs', category: 'Architecture' },
+     { skill: 'JetBrains IDEs', category: 'tools' },
+    { skill: 'Pub/Sub', category: 'Architecture' },
+    { skill: 'Jest', category: 'Testing' },
+    { skill: 'Postman', category: 'Testing' },
+     { skill: 'Docker', category: 'cloud' },
+      { skill: 'Kubernetes', category: 'cloud' },
+      { skill: 'Terraform', category: 'cloud' },
+];
+
+const skillCategories = [   
+    { 
+        name: { en: 'Frontend', es: 'Frontend' },
+        skills: technicalSkills.filter(s => s.category === 'frontend'),
+        gradient: 'from-blue-500/20 to-cyan-500/20',
+        border: 'border-blue-500/30',
+        textColor: 'text-blue-300'
+    },
+    { 
+        name: { en: 'Backend', es: 'Backend' },
+        skills: technicalSkills.filter(s => s.category === 'backend'),
+        gradient: 'from-green-500/20 to-emerald-500/20',
+        border: 'border-green-500/30',
+        textColor: 'text-green-300'
+    },
+    { 
+        name: { en: 'Languages', es: 'Lenguajes' },
+        skills: technicalSkills.filter(s => s.category === 'languages'),
+        gradient: 'from-purple-500/20 to-pink-500/20',
+        border: 'border-purple-500/30',
+        textColor: 'text-purple-300'
+    },
+    { 
+        name: { en: 'Cloud & Tools', es: 'Cloud y Herramientas' },
+        skills: [...technicalSkills.filter(s => s.category === 'tools'), ...technicalSkills.filter(s => s.category === 'cloud')],
+        gradient: 'from-orange-500/20 to-red-500/20',
+        border: 'border-orange-500/30',
+        textColor: 'text-orange-300'
+    },
+ 
+];
+---
+
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 p-4">
+    {skillCategories.map((category, index) => (
+        <article class="card card-glass card-interactive group animate-in-delay-{index + 1}"
+            data-name-en={category.name.en}
+            data-name-es={category.name.es}>
+            <div class="card-content p-4 sm:p-6 flex flex-col gap-y-3 sm:gap-y-4">
+                <h4 class="text-lg sm:text-xl lg:text-2xl font-semibold flex items-center gap-x-3 group-hover:text-gradient transition-all duration-300">
+                    <span class={`icon-wrapper flex-shrink-0 p-2 rounded-lg bg-gradient-to-br ${category.gradient} group-hover:scale-110 transition-transform duration-300`}>
+                        <div class={`w-4 h-4 rounded-full bg-gradient-to-br ${category.gradient.replace('/20', '/60')} group-hover:brightness-125 transition-all duration-300`}></div>
+                    </span>
+                    <span class="category-title">{category.name.en}</span>
+                </h4>
+                
+                <div class="flex flex-wrap gap-2">
+                    {category.skills.map((skill, skillIndex) => (
+                        <span class="modern-skill-pill">
+                            {skill.skill}
+                        </span>
+                    ))}
+                </div>
+            </div>
+            
+            <!-- Subtle glow effect on hover -->
+            <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg pointer-events-none"></div>
+        </article>
+    ))}
+</div>
+
+<style>
+    .modern-skill-pill {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        color: rgb(248, 250, 252);
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 0.75rem;
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        white-space: nowrap;
+    }
+    
+    @media (max-width: 640px) {
+        .modern-skill-pill {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.75rem;
+        }
+        
+        .card {
+            padding: 1rem !important;
+        }
+        
+        .category-title {
+            font-size: 0.875rem !important;
+            margin-bottom: 0.75rem !important;
+        }
+    }
+</style>
+
+<script>
+    import { currentLanguage } from '../../i18n/languageStore';
+    
+    function updateCategoryTitles() {
+        const lang = currentLanguage.get();
+        const categories = document.querySelectorAll('.category-title');
+        
+        categories.forEach(category => {
+            const name = category.getAttribute(`data-name-${lang}`);
+            if (name) category.textContent = name;
+        });
+    }
+    
+    // Update on language change
+    currentLanguage.subscribe(updateCategoryTitles);
+    
+    // Initial update
+    document.addEventListener('DOMContentLoaded', updateCategoryTitles);
+</script>

@@ -1,0 +1,141 @@
+---
+import TeamIcon from "../icons/TeamIcon.astro";
+import BusinessIcon from "../icons/BusinessIcon.astro";
+import ExclamationIcon from "../icons/ExclamationIcon.astro";
+import BookIcon from "../icons/BookIcon.astro";
+import TalkIcon from "../icons/TalkIcon.astro";
+import BulbIcon from "../icons/BulbIcon.astro";
+import FLuentIcon from "../icons/FLuentIcon.astro"
+
+// Array de fortalezas
+const strengths = [
+    {
+        id: 'teamwork',
+        title: { en: 'Teamwork', es: 'Trabajo en Equipo' },
+        description: { 
+            en: 'Collaborative spirit and ability to work effectively with others to achieve common goals.',
+            es: 'Espíritu colaborativo y capacidad para trabajar eficazmente con otros para lograr objetivos comunes.'
+        },
+        icon: TeamIcon,
+        class: ''
+    },
+    {
+        id: 'commitment',       
+        title: { en: 'Commitment', es: 'Compromiso' },
+        description: { 
+            en: 'Dedication and reliability in completing tasks and honoring commitments.',
+            es: 'Dedicación y confiabilidad para completar tareas y cumplir compromisos.'
+        },
+        icon: BusinessIcon,
+        class: 'text-sky-400'
+    },
+    {
+        id: 'initiative',
+        title: { en: 'Proactiveness', es: 'Proactividad' },
+        description: { 
+            en: 'Proactively seeking opportunities and taking action without waiting for direction.',
+            es: 'Búsqueda proactiva de oportunidades y toma de acción sin esperar dirección.'
+        },
+        icon: ExclamationIcon,
+        class: ''
+    },
+    {
+        id: 'learning',
+        title: { en: 'Fast Learner', es: 'Aprendizaje Rápido' },
+        description: { 
+            en: 'Ability to rapidly grasp new concepts and adapt to new environments.',
+            es: 'Capacidad para comprender rápidamente nuevos conceptos y adaptarse a nuevos entornos.'
+        },
+        icon: BookIcon,
+        class: ''
+    },
+    {
+        id: 'communication',
+        title: { en: 'Effective Communication (English and Spanish)', es: 'Comunicación Efectiva (Inglés y Español)' },
+        description: { 
+            en: 'Proficient in expressing ideas and information clearly in both languages.',
+            es: 'Competente en expresar ideas e información claramente en ambos idiomas.'
+        },
+        icon: TalkIcon,
+        class: 'text-red-400'
+    },
+    {
+        id: 'problemSolving',
+        title: { en: 'Problem-Solving', es: 'Resolución de Problemas' },
+        description: { 
+            en: 'Skilled at identifying issues and developing effective solutions.',
+            es: 'Hábil en identificar problemas y desarrollar soluciones efectivas.'
+        },
+        icon: BulbIcon,
+        class: 'text-yellow-400'
+    },
+    {
+        id: 'adaptability',
+        title: { en: 'Adaptability', es: 'Adaptabilidad' },
+        description: { 
+            en: 'Flexible and open to change, able to adjust to new challenges and circumstances.',
+            es: 'Flexible y abierto al cambio, capaz de ajustarse a nuevos desafíos y circunstancias.'
+        },
+        icon: FLuentIcon,
+        class: 'text-purple-400'
+    }
+];
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 p-4" id="core-strengths-grid">
+    {strengths.map((strength, index) => (
+            <article class="card card-glass card-interactive strength-item group animate-in-delay-{Math.floor(index / 2) + 1}"
+                data-title-en={strength.title.en}
+                data-title-es={strength.title.es}
+                data-description-en={strength.description.en}
+                data-description-es={strength.description.es}
+            >
+                <div class="card-content p-4 sm:p-6 flex flex-col gap-y-3 sm:gap-y-4">
+                    <h3 class="text-lg sm:text-xl lg:text-2xl font-semibold flex items-center gap-x-3 group-hover:text-gradient transition-all duration-300">
+                        {strength.icon && (
+                            <span class="icon-wrapper flex-shrink-0 p-2 rounded-lg bg-gradient-to-br from-white/10 to-white/5 group-hover:scale-110 transition-transform duration-300">
+                                <strength.icon class={`${strength.class} w-5 h-5 sm:w-6 sm:h-6 group-hover:brightness-125 transition-all duration-300`}/>
+                            </span>
+                        )} 
+                        <span class="strength-title">{strength.title.en}</span>
+                    </h3>
+                    <p class="font-normal text-sm sm:text-base lg:text-lg text-gray-400 strength-description group-hover:text-gray-300 transition-colors duration-300 leading-relaxed">
+                        {strength.description.en}
+                    </p>
+                </div>
+                
+                <!-- Subtle glow effect on hover -->
+                <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-lg pointer-events-none"></div>
+            </article>
+    ))}
+</div>
+
+<script>
+    import { currentLanguage } from '../../i18n/languageStore';
+    
+    function updateStrengthsContent() {
+        const lang = currentLanguage.get();
+        const strengthItems = document.querySelectorAll('.strength-item');
+        
+        strengthItems.forEach(item => {
+            const titleEl = item.querySelector('.strength-title');
+            const descEl = item.querySelector('.strength-description');
+            
+            if (titleEl) {
+                const title = item.getAttribute(`data-title-${lang}`);
+                if (title) titleEl.textContent = title;
+            }
+            
+            if (descEl) {
+                const desc = item.getAttribute(`data-description-${lang}`);
+                if (desc) descEl.textContent = desc;
+            }
+        });
+    }
+    
+    // Update on language change
+    currentLanguage.subscribe(updateStrengthsContent);
+    
+    // Initial update
+    document.addEventListener('DOMContentLoaded', updateStrengthsContent);
+</script>

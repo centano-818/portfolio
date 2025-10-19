@@ -1,0 +1,228 @@
+---
+// Optimized Background Component
+---
+
+<script>
+    // Optimized interactive bubble movement with throttling
+    let bubX = 0;
+    let bubY = 0;
+    let tgX = 0;
+    let tgY = 0;
+    let animationFrameId = null;
+    let lastTime = 0;
+    const FPS_LIMIT = 30; // Limit frame rate for smoother performance
+    const FRAME_DURATION = 1000 / FPS_LIMIT;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const interactBubble = document.querySelector('.interactive');
+        if (!interactBubble) return;
+
+        const background = interactBubble.closest('.background') || document.body;
+
+        function move(timestamp) {
+            if (!lastTime || timestamp - lastTime >= FRAME_DURATION) {
+                lastTime = timestamp;
+
+                // Smoother movement with improved easing
+                bubX += (tgX - bubX) * 0.1;
+                bubY += (tgY - bubY) * 0.1;
+
+                // Using translate3d for GPU acceleration
+                interactBubble.style.transform = `translate3d(${Math.round(bubX)}px, ${Math.round(bubY)}px, 0)`;
+            }
+
+            animationFrameId = requestAnimationFrame(move);
+        }
+
+        // Throttled mousemove event
+        let isThrottled = false;
+        window.addEventListener("mousemove", (event) => {
+            if (isThrottled) return;
+            isThrottled = true;
+
+            setTimeout(() => {
+                const rect = background.getBoundingClientRect();
+                tgX = event.clientX - rect.left;
+                tgY = event.clientY - rect.top;
+                isThrottled = false;
+            }, 16); // ~60fps throttle
+        });
+
+        // Start animation
+        animationFrameId = requestAnimationFrame(move);
+
+        // Cleanup on page leave
+        window.addEventListener('beforeunload', () => {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+            }
+        });
+    });
+</script>
+
+<div id="bg-container">
+<div id="bg-gradient">
+<div id="bubbles-container">
+<div class="g1 bubble"></div>
+<div class="g2 bubble"></div>
+<div class="g3 bubble"></div>
+<div class="interactive"></div>
+</div>
+</div>
+<div id="noise"></div>
+</div>
+
+<style>
+:root {
+    --color-bg1: rgb(81, 0, 80);
+    --color-bg2: rgb(0, 13, 53);
+    --color-bg3: rgb(42, 0, 82);
+    --color1: 29, 72, 138;
+    --color2: 122, 43, 136;
+    --color3: 75, 136, 152;
+    --color-interact: 209, 176, 255;
+    --circle-size: 70%;
+    --blending: hard-light;
+    }
+
+#bg-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    min-height: 100dvh;
+    min-width: 100dvw;
+    overflow: hidden;
+    z-index: -100;
+    top: 0;
+    left: 0;
+    will-change: transform; /* Hint for browser optimization */
+    }
+
+@media (max-width: 767px) {
+    #bg-container {
+    position: fixed;
+    }
+    }
+
+.interactive {
+    position: absolute;
+    background: radial-gradient(circle at center, rgba(var(--color-interact), 0.8) 1%, rgba(var(--color-interact), 0) 2%) no-repeat;
+    mix-blend-mode: var(--blending);
+    width: 100%;
+    height: 100%;
+    top: -50%;
+    left: -50%;
+    will-change: transform; /* Hint for browser optimization */
+    }
+
+#bg-gradient {
+    position: absolute;
+    overflow: hidden;
+    z-index: -100;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, var(--color-bg1), var(--color-bg2), var(--color-bg3));
+    background-size: 200% 200%;
+    animation: bgAnimation 120s ease infinite;
+    }
+
+#noise {
+    position: absolute;
+    z-index: -90;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("../assets/bg-noise.svg");
+    opacity: 0.2; /* Reduced opacity for better performance */
+    }
+
+@keyframes bgAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+    }
+
+#bubbles-container {
+    width: 100%;
+    height: 100%;
+    /* Reduced filter complexity for better performance */
+    filter: blur(80px) contrast(1.5);
+    transform: translateZ(0); /* Force GPU acceleration */
+    }
+
+.bubble {
+    position: absolute;
+    mix-blend-mode: var(--blending);
+    width: var(--circle-size);
+    height: var(--circle-size);
+    opacity: 0.5;
+    transform: translateZ(0); /* Force GPU acceleration */
+    will-change: transform; /* Hint for browser optimization */
+    }
+
+.g1 {
+    background: radial-gradient(circle at center, rgba(var(--color1), 0.5) 0, rgba(var(--color1), 0) 60%) no-repeat;
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2);
+    transform-origin: center center;
+    animation: moveVertical 80s ease infinite;
+    }
+
+.g2 {
+    background: radial-gradient(circle at center, rgba(var(--color2), 0.5) 0, rgba(var(--color2), 0) 60%) no-repeat;
+    top: calc(50% - var(--circle-size) / 2);
+    left: calc(50% - var(--circle-size) / 2 + 300px);
+    transform-origin: calc(50% - 300px);
+    animation: moveInCircle 120s reverse infinite;
+    }
+
+.g3 {
+    background: radial-gradient(circle at center, rgba(var(--color3), 0.5) 0, rgba(var(--color3), 0) 60%) no-repeat;
+    top: calc(50% - var(--circle-size) / 2 + 200px);
+    left: calc(50% - var(--circle-size) / 2 - 300px);
+    transform-origin: calc(50% + 300px);
+    animation: moveInCircle 100s linear infinite;
+    }
+
+@keyframes moveInCircle {
+    0% { transform: rotate(0deg) translateZ(0); }
+    50% { transform: rotate(180deg) translateZ(0); }
+    100% { transform: rotate(360deg) translateZ(0); }
+    }
+
+@keyframes moveVertical {
+    0% { transform: translateY(-50%) translateZ(0); }
+    50% { transform: translateY(25%) translateZ(0); }
+    100% { transform: translateY(-50%) translateZ(0); }
+    }
+
+/* Optimize performance on mobile devices */
+@media (max-width: 768px) {
+    #bubbles-container {
+    filter: blur(60px) contrast(1.3);
+    }
+
+    @keyframes bgAnimation {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    }
+
+    .g1, .g2, .g3 {
+    animation-duration: 150s; /* Slower animations on mobile */
+    }
+    }
+
+/* Reduce animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    #bg-gradient {
+    animation: none;
+    }
+
+    .bubble {
+    animation: none !important;
+    }
+    }
+</style>

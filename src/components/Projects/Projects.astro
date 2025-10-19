@@ -1,0 +1,252 @@
+---
+import ProjectCard from "./ProjectCard.astro";
+
+const projects = [
+    {
+        id: "peopleflow",
+        title: {
+            en: "PeopleFlow (SaaS)",
+            es: "PeopleFlow (SaaS)"
+        },
+        description: {
+            en: "An HR platform currently under development, designed to optimize personnel management and hiring through artificial intelligence, streamlining business workflows. This comprehensive solution aims to revolutionize how companies handle their human resources processes.",
+            es: "Una plataforma de RRHH actualmente en desarrollo, diseñada para optimizar la gestión de personal y contratación a través de inteligencia artificial, agilizando los flujos de trabajo empresariales. Esta solución integral busca revolucionar cómo las empresas manejan sus procesos de recursos humanos."
+        },
+        tags: [
+            "dotNet", "NextJs"
+        ],
+        company: "Alsacia"
+    },
+    {
+        id: "flowuy",
+        title: {
+            en: "Flowuy - Business Assistant",
+            es: "Flowuy - Asistente Empresarial"
+        },
+        description: {
+            en: "A personal assistant software for business owners and corporate managers, enabling instant access to company databases, real-time information extraction, report generation, and email sending, significantly facilitating decision-making. This tool transforms how executives interact with their business data.",
+            es: "Un software asistente personal para dueños de negocios y gerentes corporativos, que permite acceso instantáneo a bases de datos de la empresa, extracción de información en tiempo real, generación de informes y envío de correos, facilitando significativamente la toma de decisiones. Esta herramienta transforma cómo los ejecutivos interactúan con sus datos empresariales."
+        },
+        tags: [
+            "dotNet", "n8n", "Flutter"
+        ],
+        company: "Alsacia"
+    },
+    {
+        id: "biopass",
+        title: {
+            en: "BioPass - Access Management",
+            es: "BioPass - Gestión de Acceso"
+        },
+        description: {
+            en: "Access management software for personnel, initially developed for ENAP (Chile), with the aim of becoming a comprehensive solution for various companies. It provides secure and efficient control over facility access, time tracking, and personnel management.",
+            es: "Software de gestión de acceso para personal, desarrollado inicialmente para ENAP (Chile), con el objetivo de convertirse en una solución integral para diversas empresas. Proporciona control seguro y eficiente sobre el acceso a instalaciones, seguimiento de tiempo y gestión de personal."
+        },
+        tags: [
+            "dotNet", "React"
+        ],
+        company: "Alsacia"
+    },
+    {
+        id: "biomatch",
+        title: {
+            en: "BioMatch - Identity Verification",
+            es: "BioMatch - Verificación de Identidad"
+        },
+        description: {
+            en: "An independent service within the BioPass ecosystem, focused on identity verification through an enrollment system that validates identity documents from different countries. This cutting-edge solution ensures secure and reliable identity authentication across multiple jurisdictions.",
+            es: "Un servicio independiente dentro del ecosistema BioPass, enfocado en la verificación de identidad a través de un sistema de enrolamiento que valida documentos de identidad de diferentes países. Esta solución de vanguardia garantiza autenticación de identidad segura y confiable en múltiples jurisdicciones."
+        },
+        tags: [
+            "dotNet", "Python", "Google Cloud", "NextJs"
+        ],
+        company: "Alsacia"
+    },
+    {
+        id: "hubspot-crm",
+        title: {
+            en: "Custom Cards in Hubspot CRM",
+            es: "Tarjetas Personalizadas en Hubspot CRM"
+        },
+        description: {
+            en: "Private app to create custom cards for managing real estate offer processes for Los Cabos real estate companies. Uses NodeJs serverless for the backend and React for the frontend.",
+            es: "Aplicación privada para crear tarjetas personalizadas para gestionar procesos de ofertas inmobiliarias para empresas de bienes raíces de Los Cabos. Utiliza NodeJs serverless para el backend y React para el frontend."
+        },
+        tags: [
+            "NodeJs", "React"
+        ],
+        company: "Bizdirect Consulting"
+    },
+    {
+        id: "labstat",
+        title: {
+            en: `Lims Software for <a href="https://labstat.com" class="text-sky-300 hover:text-sky-500 cursor-pointer decoration-1">Labstat</a>`,
+            es: `Software Lims para <a href="https://labstat.com" class="text-sky-300 hover:text-sky-500 cursor-pointer decoration-1">Labstat</a>`
+        },
+        description: {
+            en: "Application for managing toxicology and chemical testing laboratories for Labstat. Developed with .net using WinForms and DevExpress, it utilizes web services and includes a web app developed with Asp.Net MVC where clients can manage their own product tests.",
+            es: "Aplicación para gestionar laboratorios de pruebas toxicológicas y químicas para Labstat. Desarrollada con .net usando WinForms y DevExpress, utiliza servicios web e incluye una aplicación web desarrollada con Asp.Net MVC donde los clientes pueden gestionar sus propias pruebas de productos."
+        },
+        tags: [
+            "dotNet", "Winforms", "MVC"
+        ],
+        company: "IsuCorp"
+    },
+    {
+        id: "ch-forms",
+        title: {
+            en: "Chinook Treaters Form OCR Web App",
+            es: "Aplicación Web de OCR para Formularios de Chinook Treaters"
+        },
+        description: {
+            en: "Form recognition application, serverless based on Azure Functions. It features a web app made in VueJs where users can view and manage information extracted from forms. This information is stored in a multi-tenant database.",
+            es: "Aplicación de reconocimiento de formularios, sin servidor basada en Azure Functions. Cuenta con una aplicación web hecha en VueJs donde los usuarios pueden ver y gestionar la información extraída de los formularios. Esta información se almacena en una base de datos multi-tenant."
+        },
+        tags: [
+            "dotNet", "Azure Services", "Serverless", "VueJs", "Typescript"
+        ]
+    },
+    {
+        id: "aevi-spa",
+        title: {
+            en: `Salon-Spa Management for <a href="https://aevi.ca" class="text-sky-300 hover:text-sky-500 cursor-pointer decoration-1">Aevi</a>`,
+            es: `Gestión de Salón-Spa para <a href="https://aevi.ca" class="text-sky-300 hover:text-sky-500 cursor-pointer decoration-1">Aevi</a>`
+        },
+        description: {
+            en: "Odoo module for comprehensive salon management, customized to the client's specific needs. It includes service management, service categories, teams, rooms, a scheduler for appointments, and auto-planning for employee shifts. Appointments can be generated automatically or manually, with a custom point of sale. Real-time appointment synchronization and an online booking site developed in React integrated into the Odoo routing system.",
+            es: "Módulo de Odoo para la gestión integral de salones, personalizado a las necesidades específicas del cliente. Incluye gestión de servicios, categorías de servicios, equipos, salas, un planificador de citas y planificación automática de turnos de empleados. Las citas se pueden generar de forma automática o manual, con un punto de venta personalizado. Sincronización de citas en tiempo real y un sitio de reservas en línea desarrollado en React integrado en el sistema de enrutamiento de Odoo."
+        },
+        tags: [
+            "Odoo ERP", "Python", "Typescript", "React", "Mui", "Bryntum Calendar"
+        ],
+        link: "https://aevi-spa-dev-12614753.dev.odoo.com",
+        image: ["/projects/booking-site-aevi.webp", "/projects/calendar-aevi-spa.webp"]
+    },
+    {
+        id: "meevo-integration",
+        title: {
+            en: "Odoo and Meevo Integration Module",
+            es: "Módulo de Integración de Odoo y Meevo"
+        },
+        description: {
+            en: "An integration module for managing and transferring data between Meevo and Odoo.",
+            es: "Un módulo de integración para gestionar y transferir datos entre Meevo y Odoo."
+        },
+        tags: [
+            "Odoo ERP", "Owl", "Python", "Javascript"
+        ]
+    },
+    {
+        id: "doc-query-chat",
+        title: {
+            en: "Doc-Query-Chat",
+            es: "Doc-Query-Chat"
+        },
+        description: {
+            en: "Application working with a vector database that allows loading large documents and querying them. It has conversational memory and uses the OpenAI API.",
+            es: "Aplicación que trabaja con una base de datos vectorial que permite cargar documentos grandes y consultarlos. Tiene memoria conversacional y utiliza la API de OpenAI."
+        },
+        tags: [
+            "NextJs", "LangChain", "OpenAI API", "Typescript"
+        ],
+        image: "https://media.licdn.com/dms/image/v2/D562DAQEDIjbrUpgnZw/profile-treasury-image-shrink_800_800/profile-treasury-image-shrink_800_800/0/1701413881274?e=1730178000&v=beta&t=xzB9Lk2I-HkgNOXXnTOVsLDgOZ2gN2us_pWMRQfgmEo",
+        repo: "https://github.com/Oriel9511/chat-doc-query"
+    },
+    {
+        id: "api-data-consulting",
+        title: {
+            en: "Rest API for Data Consulting",
+            es: "API Rest para Data Consulting"
+        },
+        description: {
+            en: "Rest API developed for Data Consulting.",
+            es: "API Rest desarrollada para Data Consulting."
+        },
+        tags: [
+            "Autogen", "FastAPI", "Python"
+        ]
+    },
+    {
+        id: "process-mapping-integration",
+        title: {
+            en: "Process Mapping Integration Tool",
+            es: "Herramienta de Integración de Mapeo de Procesos"
+        },
+        description: {
+            en: "Integration between Miro and Notion, later migrated to Airtable. Allows creating flow diagrams in Miro with custom properties for each shape. These data are stored in Airtable for later consultation and management.",
+            es: "Integración entre Miro y Notion, posteriormente migrada a Airtable. Permite crear diagramas de flujo en Miro con propiedades personalizadas para cada forma. Estos datos se almacenan en Airtable para su posterior consulta y gestión."
+        },
+        tags: [
+            "NextJs", "ExpressJS", "MSSQL Server", "Typescript", "Redis", "Notion"
+        ],
+        image: "https://media.licdn.com/dms/image/v2/D4E2DAQE7XJXOW0h6CA/profile-treasury-image-shrink_800_800/profile-treasury-image-shrink_800_800/0/1704874451945?e=1730178000&v=beta&t=bbgD9TZn15TIDLn8LrpQ54DCHEf56zlHgWE5aNLRzsY"
+    },
+    {
+        id: "form-data-extraction",
+        title: {
+            en: "Form Data Extraction",
+            es: "Extracción de Datos de Formularios"
+        },
+        description: {
+            en: "Custom application for extracting data from handwritten forms and templates. The extracted information can be exported to Excel or PDF format.",
+            es: "Aplicación personalizada para extraer datos de formularios y plantillas manuscritas. La información extraída se puede exportar a formato Excel o PDF."
+        },
+        tags: [
+            "dotNet", "Azure Form Recognizer", "Blazor"
+        ],
+        repo: "https://github.com/Oriel9511/formRecognizer"
+    },
+    {
+        id: "smart-store",
+        title: {
+            en: "Smart Store ERP",
+            es: "ERP Smart Store"
+        },
+        description: {
+            en: "Custom app for centralized management of multiple online stores. Allows viewing general statistics of different stores, managing employees, creating general or store-specific offers, managing customer information, and overseeing products, warehouses, and purchase orders.",
+            es: "Aplicación personalizada para la gestión centralizada de múltiples tiendas en línea. Permite ver estadísticas generales de diferentes tiendas, gestionar empleados, crear ofertas generales o específicas de la tienda, gestionar la información de los clientes y supervisar productos, almacenes y órdenes de compra."
+        },
+        tags: [
+            "dotNet", "NextJs", "Azure Functions", "MSSQL Server", "Typescript"
+        ]
+    },
+    {
+        id: "quote-direct",
+        title: {
+            en: "Quote Direct ERP",
+            es: "ERP Quote Direct"
+        },
+        description: {
+            en: "ERP oriented towards construction companies, it allows managing quotes, sales orders, invoices, materials, employees. It is multi-tenant and has project and service template creation functionalities.",
+            es: "ERP orientado a empresas de construcción, permite gestionar cotizaciones, órdenes de venta, facturas, materiales, empleados. Es multi-tenant y tiene funcionalidades de creación de plantillas de proyectos y servicios."
+        },
+        tags: [
+            "dotNet", "VueJs", "MSSQL Server", "Typescript"
+        ],
+        image: "https://media.licdn.com/dms/image/v2/D4E2DAQGcskyHV_f-Hg/profile-treasury-image-shrink_800_800/profile-treasury-image-shrink_800_800/0/1704874545405?e=1730174400&v=beta&t=NEy_6rmonGpVVD40hJ0bgl5GyyNlPRuh3042o4mNWjE"
+    },
+    {
+        id: "wms",
+        title: {
+            en: "Warehouse Management System",
+            es: "Sistema de Gestión de Almacenes"
+        },
+        description: {
+            en: "The Warehouse Management System (WMS) is designed to handle all aspects of warehouse operations. It manages routine warehouse movements, maintains detailed lists of materials, and ensures efficient handling of inventory from reception to dispatch. This system optimizes storage space, supports real-time inventory tracking, and improves overall efficiency by guiding workers through their tasks using mobile devices and barcode scanners. It's the backbone of streamlined warehouse management, ensuring everything runs smoothly and efficiently.",
+            es: "El Sistema de Gestión de Almacenes (SGA) está diseñado para manejar todos los aspectos de las operaciones de almacén. Gestiona los movimientos rutinarios del almacén, mantiene listas detalladas de materiales y garantiza un manejo eficiente del inventario desde la recepción hasta el despacho. Este sistema optimiza el espacio de almacenamiento, admite el seguimiento del inventario en tiempo real y mejora la eficiencia general al guiar a los trabajadores a través de sus tareas utilizando dispositivos móviles y escáneres de códigos de barras. Es la columna vertebral de una gestión de almacenes optimizada, asegurando que todo funcione sin problemas y de manera eficiente."
+        },
+        tags: [
+            "dotNet", "Blazor", "MSSQL Server"
+        ]
+    },
+];
+
+---
+
+<div class="w-full flex flex-col gap-4">
+        {
+            projects.map(project => (
+                    <ProjectCard id={project.id} {...project}/>
+            ))
+        }
+</div>
